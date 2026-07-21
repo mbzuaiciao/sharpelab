@@ -1,0 +1,187 @@
+{
+  "admissibility_cards": [
+    {
+      "eligible": false,
+      "method_id": "iid-gaussian-sharpe",
+      "method_name": "Naive IID Gaussian",
+      "reasons": [
+        "Temporal dependence contradicts IID inference."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "INELIGIBLE"
+    },
+    {
+      "eligible": false,
+      "method_id": "mertens-psr",
+      "method_name": "Mertens / PSR",
+      "reasons": [
+        "Temporal dependence contradicts the IID basis of Mertens/PSR."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "INELIGIBLE"
+    },
+    {
+      "eligible": true,
+      "method_id": "hac-sharpe",
+      "method_name": "Bartlett / Newey-West HAC",
+      "reasons": [
+        "Explicit-bandwidth weak-dependence inference is eligible."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "ADMISSIBLE (PRIMARY)"
+    },
+    {
+      "eligible": true,
+      "method_id": "circular-block-bootstrap",
+      "method_name": "Circular Block Bootstrap",
+      "reasons": [
+        "Explicit block length, replications, and seed are supplied."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "ADMISSIBLE (SENSITIVITY)"
+    }
+  ],
+  "analyst_cards": [
+    {
+      "admissible": true,
+      "analyst_id": "spec-hac",
+      "categorical_decision": "SUPPORTED",
+      "confidence_interval": [
+        0.0391,
+        0.3033
+      ],
+      "confidence_level": 0.95,
+      "decision_label": "Supported (CI > 0)",
+      "estimate": 0.1712,
+      "key_assumption": "Adjusts standard errors for volatility clustering / ARCH dependence.",
+      "method_id": "hac-sharpe",
+      "method_name": "Bartlett / Newey-West HAC",
+      "p_value": null,
+      "standard_error": 0.0674,
+      "title": "Primary Specification (HAC)"
+    },
+    {
+      "admissible": true,
+      "analyst_id": "spec-bootstrap",
+      "categorical_decision": "SUPPORTED",
+      "confidence_interval": [
+        0.0686,
+        0.2779
+      ],
+      "confidence_level": 0.95,
+      "decision_label": "Supported (CI > 0)",
+      "estimate": 0.1712,
+      "key_assumption": "Non-parametric block sampling preserving temporal volatility dependence.",
+      "method_id": "circular-block-bootstrap",
+      "method_name": "Circular Block Bootstrap",
+      "p_value": null,
+      "standard_error": 0.0534,
+      "title": "Cross-Check Specification (Bootstrap)"
+    }
+  ],
+  "audit_trail": [
+    {
+      "actor": "orchestrator",
+      "event_id": "evt-001",
+      "event_type": "workflow-started",
+      "status": "recorded",
+      "summary": "[orchestrator] workflow-started"
+    },
+    {
+      "actor": "provenance",
+      "event_id": "evt-002",
+      "event_type": "agent-input",
+      "status": "recorded",
+      "summary": "[provenance] agent-input"
+    },
+    {
+      "actor": "provenance",
+      "event_id": "evt-003",
+      "event_type": "budget-consumed",
+      "status": "recorded",
+      "summary": "[provenance] budget-consumed"
+    },
+    {
+      "actor": "provider-adapter",
+      "event_id": "evt-004",
+      "event_type": "provider-response",
+      "status": "recorded",
+      "summary": "[provider-adapter] provider-response"
+    },
+    {
+      "actor": "provenance",
+      "event_id": "evt-005",
+      "event_type": "agent-output-accepted",
+      "status": "accepted",
+      "summary": "[provenance] agent-output-accepted"
+    },
+    {
+      "actor": "deterministic-core",
+      "event_id": "evt-006",
+      "event_type": "deterministic-diagnostics-completed",
+      "status": "completed",
+      "summary": "[deterministic-core] deterministic-diagnostics-completed"
+    },
+    {
+      "actor": "diagnostic-planner",
+      "event_id": "evt-007",
+      "event_type": "agent-input",
+      "status": "recorded",
+      "summary": "[diagnostic-planner] agent-input"
+    },
+    {
+      "actor": "diagnostic-planner",
+      "event_id": "evt-008",
+      "event_type": "budget-consumed",
+      "status": "recorded",
+      "summary": "[diagnostic-planner] budget-consumed"
+    }
+  ],
+  "data_fingerprint": "sha256:f0eb52d1f2fe0435fb3882653c8e4d58715e97ad7347d1d71624a77fb93b5805",
+  "disagreement_hook_text": "Under volatility clustering, naive Gaussian software formulas are invalid. However, testing the data across all scientifically admissible robust specifications confirms that the positive Sharpe conclusion holds in every valid case.",
+  "evidence_cards": [
+    {
+      "claim": "linear_independence",
+      "diagnostic_name": "Linear Autocorrelation (Ljung-Box Q)",
+      "direction_badge": "SUPPORTS",
+      "evidence_id": "evidence:80679a81364e5f13260b",
+      "finding": "inconclusive",
+      "interpretation": "No significant linear autocorrelation detected (p = 0.0972).",
+      "p_value": 0.09717537504337376,
+      "statistic": 16.0868
+    },
+    {
+      "claim": "absence_of_squared_return_dependence",
+      "diagnostic_name": "Volatility Clustering (ARCH-LM)",
+      "direction_badge": "CONTRADICTS",
+      "evidence_id": "evidence:09ee326c71bbdfd9839e",
+      "finding": "contradicts",
+      "interpretation": "Material squared-return dependence detected (ARCH-LM p = 4.67e-05), ruling out temporal IID assumptions.",
+      "p_value": 4.6740428835335335e-05,
+      "statistic": 37.4795
+    },
+    {
+      "claim": "structural_stability",
+      "diagnostic_name": "Structural Stability (Split-Chow)",
+      "direction_badge": "SUPPORTS",
+      "evidence_id": "evidence:ada24af95c07409cd0b6",
+      "finding": "inconclusive",
+      "interpretation": "Sub-sample mean and variance remain stable across window.",
+      "p_value": 0.42,
+      "statistic": 0.8912
+    }
+  ],
+  "execution_mode": "Deterministic offline replay",
+  "headline": "Different valid uncertainty models. Same conclusion. Is the result robust?",
+  "parameters_summary": "GARCH(1,1) process: omega=0.00005, alpha=0.15, beta=0.80, N=300",
+  "rule_disclosure": "Rule: \"Supported\" means the full 95% confidence interval is above zero (CI_lower > 0.0).",
+  "sample_size": 300,
+  "scenario_id": "garch-robust",
+  "scenario_type": "robust",
+  "seed": 4202,
+  "synthetic_disclosure": "Illustrative fixed-seed synthetic data",
+  "title": "SharpeLab Assumption Robustness Explorer",
+  "verdict": "ROBUST",
+  "verdict_explanation": "Volatility clustering was detected (ARCH-LM p = 4.67e-05), ruling out naive IID Gaussian inference. However, every scientifically admissible uncertainty model\u2014both Bartlett HAC [0.0391, 0.3033] and Circular Block Bootstrap [0.0686, 0.2779]\u2014remains strictly above zero. The conclusion is robust across all valid specifications.",
+  "verdict_label": "Robust"
+}

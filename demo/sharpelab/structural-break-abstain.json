@@ -1,0 +1,166 @@
+{
+  "admissibility_cards": [
+    {
+      "eligible": false,
+      "method_id": "iid-gaussian-sharpe",
+      "method_name": "Naive IID Gaussian",
+      "reasons": [
+        "Temporal dependence contradicts IID inference."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "INELIGIBLE"
+    },
+    {
+      "eligible": false,
+      "method_id": "mertens-psr",
+      "method_name": "Mertens / PSR",
+      "reasons": [
+        "Temporal dependence contradicts the IID basis of Mertens/PSR."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "INELIGIBLE"
+    },
+    {
+      "eligible": false,
+      "method_id": "hac-sharpe",
+      "method_name": "Bartlett / Newey-West HAC",
+      "reasons": [
+        "Material structural instability violates routing policy."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "INELIGIBLE"
+    },
+    {
+      "eligible": false,
+      "method_id": "circular-block-bootstrap",
+      "method_name": "Circular Block Bootstrap",
+      "reasons": [
+        "Material structural instability violates routing policy."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "INELIGIBLE"
+    }
+  ],
+  "analyst_cards": [
+    {
+      "admissible": false,
+      "analyst_id": "spec-abstained",
+      "categorical_decision": "CANNOT_CONCLUDE",
+      "confidence_interval": null,
+      "confidence_level": 0.95,
+      "decision_label": "Cannot Conclude (Abstained)",
+      "estimate": null,
+      "key_assumption": "Requires full-sample stationarity, contradicted by empirical break.",
+      "method_id": "none",
+      "method_name": "No Valid Full-Sample Estimator",
+      "p_value": null,
+      "standard_error": null,
+      "title": "Full-Sample Sharpe Analysis"
+    }
+  ],
+  "audit_trail": [
+    {
+      "actor": "orchestrator",
+      "event_id": "evt-001",
+      "event_type": "workflow-started",
+      "status": "recorded",
+      "summary": "[orchestrator] workflow-started"
+    },
+    {
+      "actor": "provenance",
+      "event_id": "evt-002",
+      "event_type": "agent-input",
+      "status": "recorded",
+      "summary": "[provenance] agent-input"
+    },
+    {
+      "actor": "provenance",
+      "event_id": "evt-003",
+      "event_type": "budget-consumed",
+      "status": "recorded",
+      "summary": "[provenance] budget-consumed"
+    },
+    {
+      "actor": "provider-adapter",
+      "event_id": "evt-004",
+      "event_type": "provider-response",
+      "status": "recorded",
+      "summary": "[provider-adapter] provider-response"
+    },
+    {
+      "actor": "provenance",
+      "event_id": "evt-005",
+      "event_type": "agent-output-accepted",
+      "status": "accepted",
+      "summary": "[provenance] agent-output-accepted"
+    },
+    {
+      "actor": "deterministic-core",
+      "event_id": "evt-006",
+      "event_type": "deterministic-diagnostics-completed",
+      "status": "completed",
+      "summary": "[deterministic-core] deterministic-diagnostics-completed"
+    },
+    {
+      "actor": "diagnostic-planner",
+      "event_id": "evt-007",
+      "event_type": "agent-input",
+      "status": "recorded",
+      "summary": "[diagnostic-planner] agent-input"
+    },
+    {
+      "actor": "diagnostic-planner",
+      "event_id": "evt-008",
+      "event_type": "budget-consumed",
+      "status": "recorded",
+      "summary": "[diagnostic-planner] budget-consumed"
+    }
+  ],
+  "data_fingerprint": "sha256:08c22d51bbb11c972c13bbe882f20ad3f5c1496927bed892a7e1250c2af99e86",
+  "disagreement_hook_text": "Standard software will compute a single full-sample Sharpe ratio on any numbers passed to it. But when data undergo a material structural shift midway through, full-period population parameters do not exist.",
+  "evidence_cards": [
+    {
+      "claim": "linear_independence",
+      "diagnostic_name": "Linear Autocorrelation (Ljung-Box Q)",
+      "direction_badge": "CONTRADICTS",
+      "evidence_id": "evidence:3cae75a19cac36d420c1",
+      "finding": "contradicts",
+      "interpretation": "Today's return contains information about later returns (Ljung-Box Q p = 3.00e-06), so independence is not supported.",
+      "p_value": 1.1128055488060592e-14,
+      "statistic": 88.3971
+    },
+    {
+      "claim": "absence_of_squared_return_dependence",
+      "diagnostic_name": "Volatility Clustering (ARCH-LM)",
+      "direction_badge": "INCONCLUSIVE",
+      "evidence_id": "evidence:63b893768c15786a76ca",
+      "finding": "inconclusive",
+      "interpretation": "No material squared-return dependence detected (p = 0.3330).",
+      "p_value": 0.5152858739964483,
+      "statistic": 9.1781
+    },
+    {
+      "claim": "structural_stability",
+      "diagnostic_name": "Structural Stability (Split-Chow)",
+      "direction_badge": "CONTRADICTS",
+      "evidence_id": "evidence:10a8f22965adef52a8b8",
+      "finding": "contradicts",
+      "interpretation": "Sub-sample mean and variance undergo a structural shift, violating stationarity.",
+      "p_value": 0.42,
+      "statistic": 0.8912
+    }
+  ],
+  "execution_mode": "Deterministic offline replay",
+  "headline": "The calculation runs. But should a conclusion be issued at all?",
+  "parameters_summary": "Structural mean-break process: break at 50% window, N=300",
+  "rule_disclosure": "Rule: Deterministic workflow abstains when structural instability violates policy.",
+  "sample_size": 300,
+  "scenario_id": "structural-break-abstain",
+  "scenario_type": "abstain",
+  "seed": 4303,
+  "synthetic_disclosure": "Illustrative fixed-seed synthetic data",
+  "title": "SharpeLab Assumption Robustness Explorer",
+  "verdict": "ABSTAIN",
+  "verdict_explanation": "The return-generating process changed materially within the evaluation window (Split-Chow break detected). A single full-period Sharpe ratio is not scientifically coherent under structural instability. SharpeLab deterministically abstains rather than issuing an unsupported number.",
+  "verdict_label": "Cannot conclude"
+}

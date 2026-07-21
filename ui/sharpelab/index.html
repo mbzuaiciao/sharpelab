@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SharpeLab // Assumption Robustness Explorer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header & Disclosures -->
+  <header>
+    <div class="brand-row">
+      <div class="brand-title">
+        <span>SharpeLab</span>
+        <span class="brand-tagline">The data did not disagree. The assumptions did.</span>
+      </div>
+      <div class="badge-group">
+        <span class="badge badge-info" id="execution-badge">Deterministic Offline Replay</span>
+        <span class="badge badge-amber" id="disclosure-badge">Illustrative Fixed-Seed Synthetic Data</span>
+      </div>
+    </div>
+
+    <!-- Scenario Switcher Control -->
+    <div class="scenario-switcher-bar" role="tablist" aria-label="SharpeLab Demonstration Scenarios">
+      <button class="scenario-btn active" data-scenario="ar1-assumption-sensitive" role="tab" aria-selected="true">
+        <span class="scenario-dot dot-amber"></span>
+        Sensitive to assumptions
+      </button>
+      <button class="scenario-btn" data-scenario="garch-robust" role="tab" aria-selected="false">
+        <span class="scenario-dot dot-green"></span>
+        Robust under volatility
+      </button>
+      <button class="scenario-btn" data-scenario="structural-break-abstain" role="tab" aria-selected="false">
+        <span class="scenario-dot dot-red"></span>
+        Cannot conclude
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Section A: Disagreement Hook & Scenario Opening -->
+    <section class="section-panel" id="section-hook" aria-label="Analyst Disagreement Hook">
+      <div class="headline-box">
+        <div class="headline-text" id="headline-title">Same data. Same Sharpe estimate. Opposite conclusions. Why?</div>
+        <div class="headline-sub" id="headline-sub">
+          Two analysts received the exact same return series ($N=250$). Both calculated the exact same Sharpe estimate ($0.1253$). But Analyst A concluded the return is significantly positive, while Analyst B found it cannot be distinguished from zero.
+        </div>
+        <div class="rule-disclosure" id="rule-disclosure">
+          <strong>Demo Rule:</strong> "Supported" means the full 95% confidence interval is above zero ($CI_{\text{lower}} > 0.0$).
+        </div>
+      </div>
+
+      <!-- Comparison Cards -->
+      <div class="cards-grid" id="analyst-cards-container">
+        <!-- Injected by JS -->
+      </div>
+
+      <!-- Compact Interval Visualizer / Visual Strip -->
+      <div class="interval-visualizer-box" id="interval-visualizer">
+        <div class="visualizer-header" id="visualizer-header">
+          <span>95% Confidence Interval Comparison</span>
+          <span style="font-size: 0.8rem; color: var(--text-secondary);">Vertical line = Zero Benchmark (0.0)</span>
+        </div>
+        <div class="chart-container" id="chart-bars">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <div class="action-bar" id="action-bar-container">
+        <button class="btn-primary" id="btn-reveal" aria-expanded="false" aria-controls="section-evidence section-admissibility section-verdict">
+          Reveal hidden assumption
+        </button>
+      </div>
+    </section>
+
+    <!-- Section B: Diagnostic Evidence Matrix (Hidden initially) -->
+    <section class="section-panel hidden-step" id="section-evidence" aria-label="Statistical Evidence Matrix">
+      <div class="section-header">
+        <span>1. Typed Statistical Evidence Matrix</span>
+        <span class="badge badge-muted">Deterministic Diagnostics</span>
+      </div>
+      <div class="evidence-list" id="evidence-container">
+        <!-- Injected by JS -->
+      </div>
+    </section>
+
+    <!-- Section C: Admissible Interpretations (Hidden initially) -->
+    <section class="section-panel hidden-step" id="section-admissibility" aria-label="Admissibility Route">
+      <div class="section-header">
+        <span>2. Scientific Admissibility Route</span>
+        <span class="badge badge-info">Audit Policy Guardrails</span>
+      </div>
+      <table class="admissibility-table">
+        <thead>
+          <tr>
+            <th>Inference Method</th>
+            <th>Admissibility Status</th>
+            <th>Deterministic Policy Rationale</th>
+          </tr>
+        </thead>
+        <tbody id="admissibility-container">
+          <!-- Injected by JS -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Section D: Final Verdict (Hidden initially) -->
+    <section class="section-panel hidden-step" id="section-verdict" aria-label="SharpeLab Verdict">
+      <div class="verdict-box" id="verdict-box">
+        <div class="verdict-header">
+          <span class="badge badge-amber" id="verdict-badge" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">SHARPELAB VERDICT</span>
+          <span class="verdict-title" id="verdict-title">Sensitive to assumptions</span>
+        </div>
+        <div class="verdict-explanation" id="verdict-explanation">
+          The Sharpe point estimate stayed the same (0.1253). Once dependence-aware uncertainty was evaluated, the confidence interval crossed zero. The positive conclusion relied on an independence assumption contradicted by the data.
+        </div>
+      </div>
+
+      <!-- Audit Trail Drawer -->
+      <div>
+        <button class="audit-toggle" id="btn-toggle-audit" aria-expanded="false" aria-controls="audit-container">
+          ▸ View Audit Trail Log (#evt-8f92a10c)
+        </button>
+        <div class="audit-content" id="audit-container" role="region" aria-label="Audit Log Details">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Fallback Error Message -->
+    <div id="error-fallback" class="error-box hidden-step" role="alert">
+      <h2>SharpeLab Demo Error</h2>
+      <p>SharpeLab demo payload could not be loaded. Please run <code>make sharpelab-demo-build</code> and refresh this page.</p>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

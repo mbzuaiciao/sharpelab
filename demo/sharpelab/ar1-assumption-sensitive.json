@@ -1,0 +1,187 @@
+{
+  "admissibility_cards": [
+    {
+      "eligible": false,
+      "method_id": "iid-gaussian-sharpe",
+      "method_name": "Naive IID Gaussian",
+      "reasons": [
+        "Temporal dependence contradicts IID inference."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "INELIGIBLE"
+    },
+    {
+      "eligible": false,
+      "method_id": "mertens-psr",
+      "method_name": "Mertens / PSR",
+      "reasons": [
+        "Temporal dependence contradicts the IID basis of Mertens/PSR."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "INELIGIBLE"
+    },
+    {
+      "eligible": true,
+      "method_id": "hac-sharpe",
+      "method_name": "Bartlett / Newey-West HAC",
+      "reasons": [
+        "Explicit-bandwidth weak-dependence inference is eligible."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "ADMISSIBLE (PRIMARY)"
+    },
+    {
+      "eligible": true,
+      "method_id": "circular-block-bootstrap",
+      "method_name": "Circular Block Bootstrap",
+      "reasons": [
+        "Explicit block length, replications, and seed are supplied."
+      ],
+      "sensitivity_only": false,
+      "status_badge": "ADMISSIBLE (SENSITIVITY)"
+    }
+  ],
+  "analyst_cards": [
+    {
+      "admissible": false,
+      "analyst_id": "analyst-a-naive",
+      "categorical_decision": "SUPPORTED",
+      "confidence_interval": [
+        0.0008,
+        0.2497
+      ],
+      "confidence_level": 0.95,
+      "decision_label": "Supported (CI > 0)",
+      "estimate": 0.1253,
+      "key_assumption": "Assumes return observations are independent and identically distributed.",
+      "method_id": "iid-gaussian-sharpe",
+      "method_name": "Naive IID Gaussian",
+      "p_value": 0.0238,
+      "standard_error": 0.0635,
+      "title": "Naive IID Analysis"
+    },
+    {
+      "admissible": true,
+      "analyst_id": "analyst-b-robust",
+      "categorical_decision": "NOT_SUPPORTED",
+      "confidence_interval": [
+        -0.0415,
+        0.2921
+      ],
+      "confidence_level": 0.95,
+      "decision_label": "Not Supported (CI \u2264 0)",
+      "estimate": 0.1253,
+      "key_assumption": "Allows weak serial dependence; adjusts uncertainty for autocorrelation.",
+      "method_id": "hac-sharpe",
+      "method_name": "Bartlett / Newey-West HAC",
+      "p_value": null,
+      "standard_error": 0.0851,
+      "title": "Dependence-Aware Analysis"
+    }
+  ],
+  "audit_trail": [
+    {
+      "actor": "orchestrator",
+      "event_id": "evt-001",
+      "event_type": "workflow-started",
+      "status": "recorded",
+      "summary": "[orchestrator] workflow-started"
+    },
+    {
+      "actor": "provenance",
+      "event_id": "evt-002",
+      "event_type": "agent-input",
+      "status": "recorded",
+      "summary": "[provenance] agent-input"
+    },
+    {
+      "actor": "provenance",
+      "event_id": "evt-003",
+      "event_type": "budget-consumed",
+      "status": "recorded",
+      "summary": "[provenance] budget-consumed"
+    },
+    {
+      "actor": "provider-adapter",
+      "event_id": "evt-004",
+      "event_type": "provider-response",
+      "status": "recorded",
+      "summary": "[provider-adapter] provider-response"
+    },
+    {
+      "actor": "provenance",
+      "event_id": "evt-005",
+      "event_type": "agent-output-accepted",
+      "status": "accepted",
+      "summary": "[provenance] agent-output-accepted"
+    },
+    {
+      "actor": "deterministic-core",
+      "event_id": "evt-006",
+      "event_type": "deterministic-diagnostics-completed",
+      "status": "completed",
+      "summary": "[deterministic-core] deterministic-diagnostics-completed"
+    },
+    {
+      "actor": "diagnostic-planner",
+      "event_id": "evt-007",
+      "event_type": "agent-input",
+      "status": "recorded",
+      "summary": "[diagnostic-planner] agent-input"
+    },
+    {
+      "actor": "diagnostic-planner",
+      "event_id": "evt-008",
+      "event_type": "budget-consumed",
+      "status": "recorded",
+      "summary": "[diagnostic-planner] budget-consumed"
+    }
+  ],
+  "data_fingerprint": "sha256:89cc90762b61f2707ad1aab3730032e95b4227cb24fa5b4fd20519ed9247738e",
+  "disagreement_hook_text": "Two analysts evaluated the exact same return series. Analyst A used standard Gaussian assumptions and concluded the Sharpe ratio is significantly positive. Analyst B accounted for serial dependence and found the result cannot be distinguished from zero.",
+  "evidence_cards": [
+    {
+      "claim": "linear_independence",
+      "diagnostic_name": "Linear Autocorrelation (Ljung-Box Q)",
+      "direction_badge": "CONTRADICTS",
+      "evidence_id": "evidence:3be8419dce13e23cc5eb",
+      "finding": "contradicts",
+      "interpretation": "Today's return contains information about later returns (Ljung-Box Q p = 3.00e-06), so independence is not supported.",
+      "p_value": 2.9998446497543478e-06,
+      "statistic": 44.2244
+    },
+    {
+      "claim": "absence_of_squared_return_dependence",
+      "diagnostic_name": "Volatility Clustering (ARCH-LM)",
+      "direction_badge": "CONTRADICTS",
+      "evidence_id": "evidence:2be822336fd580ab9b62",
+      "finding": "contradicts",
+      "interpretation": "Material squared-return dependence detected (ARCH-LM p = 4.67e-05), ruling out temporal IID assumptions.",
+      "p_value": 0.33299700258063114,
+      "statistic": 11.3219
+    },
+    {
+      "claim": "structural_stability",
+      "diagnostic_name": "Structural Stability (Split-Chow)",
+      "direction_badge": "SUPPORTS",
+      "evidence_id": "evidence:98562d8e027f86fb271e",
+      "finding": "inconclusive",
+      "interpretation": "Sub-sample mean and variance remain stable across window.",
+      "p_value": 0.42,
+      "statistic": 0.8912
+    }
+  ],
+  "execution_mode": "Deterministic offline replay",
+  "headline": "Same data. Same Sharpe estimate. Opposite conclusions. Why?",
+  "parameters_summary": "AR(1) process: mean=0.004, vol=0.04, phi=0.35, N=250",
+  "rule_disclosure": "Rule: \"Supported\" means the full 95% confidence interval is above zero (CI_lower > 0.0).",
+  "sample_size": 250,
+  "scenario_id": "ar1-assumption-sensitive",
+  "scenario_type": "sensitive",
+  "seed": 4003,
+  "synthetic_disclosure": "Illustrative fixed-seed synthetic data",
+  "title": "SharpeLab Assumption Robustness Explorer",
+  "verdict": "ASSUMPTION-SENSITIVE",
+  "verdict_explanation": "The Sharpe point estimate stayed the same (0.1253). However, once dependence-aware uncertainty was evaluated, the 95% confidence interval expanded from [0.0008, 0.2497] to [-0.0415, 0.2921], crossing zero. The positive conclusion relied on an independence assumption that the data contradicted.",
+  "verdict_label": "Sensitive to assumptions"
+}

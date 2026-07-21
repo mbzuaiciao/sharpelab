@@ -1,0 +1,10 @@
+mode: mock
+timeout_seconds: 5.0
+retries: 1
+fallback_to_mock: true
+budgets:
+  maximum_diagnostic_requests: 3
+  maximum_sensitivity_requests: 2
+  maximum_review_iterations: 1
+  maximum_model_calls: 8
+  maximum_repeated_identical_request_count: 1

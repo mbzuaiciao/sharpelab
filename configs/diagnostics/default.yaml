@@ -1,0 +1,27 @@
+data_quality:
+  minimum_sample_size: 30
+  near_zero_variance: 1.0e-12
+  repeated_value_warning_fraction: 0.20
+  extreme_concentration_fraction: 0.50
+  irregular_spacing_cv: 0.10
+linear_dependence:
+  lags: [1, 2, 5, 10]
+  significance_level: 0.05
+  practical_autocorrelation: 0.15
+  minimum_sample_size: 30
+squared_dependence:
+  lags: [1, 2, 5, 10]
+  significance_level: 0.05
+  practical_autocorrelation: 0.15
+  minimum_sample_size: 30
+distribution:
+  significance_level: 0.05
+  material_absolute_skewness: 0.75
+  heavy_tail_raw_kurtosis: 6.0
+  minimum_sample_size: 30
+stability:
+  split_fraction: 0.50
+  material_mean_z: 3.0
+  material_variance_ratio: 3.0
+  minimum_sample_size: 60
+  minimum_segment_size: 20

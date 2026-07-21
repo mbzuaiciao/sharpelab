@@ -1,0 +1,7 @@
+benchmark_sharpe: 0.0
+confidence_level: 0.95
+hac_bandwidth: 5
+bootstrap_block_length: 10
+bootstrap_replications: 100
+bootstrap_seed: 2026
+claim_requires_selection_provenance: false

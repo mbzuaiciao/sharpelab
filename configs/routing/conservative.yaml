@@ -1,0 +1,10 @@
+method_priority:
+  - hac-sharpe
+  - circular-block-bootstrap
+  - mertens-psr
+  - iid-gaussian-sharpe
+iid_gaussian_minimum_sample: 30
+mertens_minimum_sample: 30
+hac_minimum_sample: 60
+bootstrap_minimum_sample: 60
+abstain_on_structural_instability: true
