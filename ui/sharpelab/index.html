@@ -3,26 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SharpeLab // Assumption Robustness Explorer</title>
+  <title>Evidence-Routed Inference // AI for Scientific Assumptions</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Header & Disclosures -->
-  <header>
+  <!-- Top Framework Header -->
+  <header class="framework-header">
     <div class="brand-row">
       <div class="brand-title">
-        <span>SharpeLab</span>
-        <span class="brand-tagline">The data did not disagree. The assumptions did.</span>
+        <span class="brand-name">Evidence-Routed Inference</span>
+        <span class="brand-subtitle">AI that reasons explicitly about scientific assumptions.</span>
       </div>
       <div class="badge-group">
         <span class="badge badge-info" id="execution-badge">Deterministic Offline Replay</span>
         <span class="badge badge-amber" id="disclosure-badge">Illustrative Fixed-Seed Synthetic Data</span>
       </div>
     </div>
+  </header>
 
-    <!-- Scenario Switcher Control -->
-    <div class="scenario-switcher-bar" role="tablist" aria-label="SharpeLab Demonstration Scenarios">
+  <main>
+    <!-- ACT 1: THE MYSTERY (Initial Screen) -->
+    <section class="section-panel act-panel" id="act-1-mystery" aria-label="Act 1: The Mystery">
+      <div class="mystery-box">
+        <div class="demo-tag">SharpeLab — Interactive Demonstration</div>
+        <h1 class="mystery-question">Can two honest experts reach opposite conclusions from the same data?</h1>
+        <p class="mystery-explanation">
+          Yes—not because either made an arithmetic mistake, but because they assumed different statistical worlds. Standard software calculates answers under unverified assumptions. Evidence-Routed Inference makes those assumptions explicit and testable.
+        </p>
+        <div class="action-bar">
+          <button class="btn-primary" id="btn-investigate" aria-controls="act-2-conflict act-scenario-bar">
+            Investigate
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scenario Switcher Bar (Revealed after Investigate) -->
+    <div class="scenario-switcher-bar hidden-step" id="act-scenario-bar" role="tablist" aria-label="Demonstration Outcomes">
       <button class="scenario-btn active" data-scenario="ar1-assumption-sensitive" role="tab" aria-selected="true">
         <span class="scenario-dot dot-amber"></span>
         Sensitive to assumptions
@@ -36,15 +54,13 @@
         Cannot conclude
       </button>
     </div>
-  </header>
 
-  <main>
-    <!-- Section A: Disagreement Hook & Scenario Opening -->
-    <section class="section-panel" id="section-hook" aria-label="Analyst Disagreement Hook">
+    <!-- ACT 2: THE CONFLICT (Revealed after Investigate) -->
+    <section class="section-panel act-panel hidden-step" id="act-2-conflict" aria-label="Act 2: The Conflict">
       <div class="headline-box">
-        <div class="headline-text" id="headline-title">Same data. Same Sharpe estimate. Opposite conclusions. Why?</div>
+        <div class="headline-text" id="headline-title">Same data. Same Sharpe estimate. Opposite conclusions.</div>
         <div class="headline-sub" id="headline-sub">
-          Two analysts received the exact same return series ($N=250$). Both calculated the exact same Sharpe estimate ($0.1253$). But Analyst A concluded the return is significantly positive, while Analyst B found it cannot be distinguished from zero.
+          The Sharpe ratio summarizes return relative to risk. Here, two analyses evaluate the exact same return series ($N=250$) and get the exact same Sharpe estimate ($0.1253$). The disagreement is not about the estimate itself, but about how uncertain that estimate is.
         </div>
         <div class="rule-disclosure" id="rule-disclosure">
           <strong>Demo Rule:</strong> "Supported" means the full 95% confidence interval is above zero ($CI_{\text{lower}} > 0.0$).
@@ -56,7 +72,7 @@
         <!-- Injected by JS -->
       </div>
 
-      <!-- Compact Interval Visualizer / Visual Strip -->
+      <!-- Confidence Interval Visualizer / Visual Strip -->
       <div class="interval-visualizer-box" id="interval-visualizer">
         <div class="visualizer-header" id="visualizer-header">
           <span>95% Confidence Interval Comparison</span>
@@ -68,16 +84,16 @@
       </div>
 
       <div class="action-bar" id="action-bar-container">
-        <button class="btn-primary" id="btn-reveal" aria-expanded="false" aria-controls="section-evidence section-admissibility section-verdict">
+        <button class="btn-primary" id="btn-reveal" aria-expanded="false" aria-controls="act-3-evidence act-4-routing act-5-verdict act-6-framework">
           Reveal hidden assumption
         </button>
       </div>
     </section>
 
-    <!-- Section B: Diagnostic Evidence Matrix (Hidden initially) -->
-    <section class="section-panel hidden-step" id="section-evidence" aria-label="Statistical Evidence Matrix">
+    <!-- ACT 3: THE EVIDENCE (Revealed after Reveal button) -->
+    <section class="section-panel act-panel hidden-step" id="act-3-evidence" aria-label="Act 3: The Evidence">
       <div class="section-header">
-        <span>1. Typed Statistical Evidence Matrix</span>
+        <span>Act 3 — Plain-Language Evidence Matrix</span>
         <span class="badge badge-muted">Deterministic Diagnostics</span>
       </div>
       <div class="evidence-list" id="evidence-container">
@@ -85,17 +101,28 @@
       </div>
     </section>
 
-    <!-- Section C: Admissible Interpretations (Hidden initially) -->
-    <section class="section-panel hidden-step" id="section-admissibility" aria-label="Admissibility Route">
+    <!-- ACT 4: SCIENTIFIC REASONING & ROUTING (Revealed after Reveal button) -->
+    <section class="section-panel act-panel hidden-step" id="act-4-routing" aria-label="Act 4: Scientific Reasoning">
       <div class="section-header">
-        <span>2. Scientific Admissibility Route</span>
+        <span>Act 4 — Scientific Admissibility & Routing</span>
         <span class="badge badge-info">Audit Policy Guardrails</span>
       </div>
+
+      <!-- Conceptual Pipeline Strip -->
+      <div class="pipeline-strip">
+        <span class="step-node">Observed Data</span> →
+        <span class="step-node">Diagnostic Evidence</span> →
+        <span class="step-node">Assumptions Tested</span> →
+        <span class="step-node">Admissible Methods</span> →
+        <span class="step-node">Robustness Test</span> →
+        <span class="step-node">Verdict</span>
+      </div>
+
       <table class="admissibility-table">
         <thead>
           <tr>
             <th>Inference Method</th>
-            <th>Admissibility Status</th>
+            <th>Scientific Admissibility</th>
             <th>Deterministic Policy Rationale</th>
           </tr>
         </thead>
@@ -103,27 +130,78 @@
           <!-- Injected by JS -->
         </tbody>
       </table>
+
+      <!-- Expandable Agent Governance Note -->
+      <details class="agent-governance-note">
+        <summary>Note on System Architecture: Role of AI Agents vs Scientific Core</summary>
+        <p>Structured AI agents may request and explain evidence, but deterministic scientific rules control eligibility, computation, and abstention.</p>
+      </details>
     </section>
 
-    <!-- Section D: Final Verdict (Hidden initially) -->
-    <section class="section-panel hidden-step" id="section-verdict" aria-label="SharpeLab Verdict">
+    <!-- ACT 5: SCIENTIFIC VERDICT (Revealed after Reveal button) -->
+    <section class="section-panel act-panel hidden-step" id="act-5-verdict" aria-label="Act 5: Scientific Verdict">
       <div class="verdict-box" id="verdict-box">
         <div class="verdict-header">
-          <span class="badge badge-amber" id="verdict-badge" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">SHARPELAB VERDICT</span>
+          <span class="badge badge-amber" id="verdict-badge" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">SCIENTIFIC VERDICT</span>
           <span class="verdict-title" id="verdict-title">Sensitive to assumptions</span>
         </div>
         <div class="verdict-explanation" id="verdict-explanation">
-          The Sharpe point estimate stayed the same (0.1253). Once dependence-aware uncertainty was evaluated, the confidence interval crossed zero. The positive conclusion relied on an independence assumption contradicted by the data.
+          The point estimate did not change. Once dependence-aware uncertainty was used, the confidence interval crossed zero. The original positive conclusion relied on an independence assumption contradicted by the evidence.
+        </div>
+        <div class="verdict-key-takeaway" id="verdict-takeaway">
+          The apparent finding disappears when the inadmissible assumption is removed.
         </div>
       </div>
 
-      <!-- Audit Trail Drawer -->
+      <!-- Collapsible Audit Trail -->
       <div>
         <button class="audit-toggle" id="btn-toggle-audit" aria-expanded="false" aria-controls="audit-container">
-          ▸ View Audit Trail Log (#evt-8f92a10c)
+          ▸ View Unalterable Audit Trail Log (#evt-8f92a10c)
         </button>
         <div class="audit-content" id="audit-container" role="region" aria-label="Audit Log Details">
           <!-- Injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ACT 6: GENERAL PRINCIPLE (Beyond Finance) (Revealed after Reveal button) -->
+    <section class="section-panel act-panel hidden-step" id="act-6-framework" aria-label="Act 6: General Principle">
+      <div class="framework-closing-box">
+        <div class="framework-tag">Act 6 — Beyond Finance: A General Architecture</div>
+        <h2>Applying Evidence-Routed Inference Across Science</h2>
+        <p class="framework-desc">
+          Today: <strong>Sharpe-ratio performance inference</strong>. The same evidence-routed architecture can be adapted wherever scientific conclusions depend on hidden methodological assumptions:
+        </p>
+
+        <div class="domain-grid">
+          <div class="domain-card">
+            <span class="domain-icon">🔬</span>
+            <strong>Clinical Trials</strong>
+            <span class="domain-sub">Baseline covariate shifts & subgroup assumptions</span>
+          </div>
+          <div class="domain-card">
+            <span class="domain-icon">📊</span>
+            <strong>Econometrics</strong>
+            <span class="domain-sub">Instrument validity & structural breaks</span>
+          </div>
+          <div class="domain-card">
+            <span class="domain-icon">🧠</span>
+            <strong>Psychology & Social Science</strong>
+            <span class="domain-sub">Measurement model invariance & p-hacking</span>
+          </div>
+          <div class="domain-card">
+            <span class="domain-icon">🌍</span>
+            <strong>Climate Science</strong>
+            <span class="domain-sub">Spatial correlation & trend non-stationarity</span>
+          </div>
+        </div>
+
+        <div class="caution-box">
+          <strong>Caution:</strong> This demonstration does not establish validated implementations in those domains. It illustrates a general architecture requiring domain-specific evidence rules and methods.
+        </div>
+
+        <div class="final-closing">
+          <span>Evidence-Routed Inference</span> — <em>Making scientific assumptions explicit.</em>
         </div>
       </div>
     </section>

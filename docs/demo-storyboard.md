@@ -1,80 +1,92 @@
-# SharpeLab Demo Video Storyboard
+# Evidence-Routed Inference // Demo Video Storyboard
 
-> **Total Video Runtime:** 3:00 (180 Seconds)
-> **Resolution:** 1920x1080 (1080p)
-> **Audio:** Clear voiceover commentary aligned with visual interaction.
-
----
-
-## Scene Breakdown
-
-### Scene 1: Introduction & Product Framing
-- **Time Window**: 0:00 - 0:20 (20s)
-- **Screen**: SharpeLab Visual Explorer header bar, brand tagline (*"The data did not disagree. The assumptions did."*), and initial scenario tab `[ Sensitive to assumptions ]`.
-- **Narration**: *"Every day, quantitative decisions rely on Sharpe ratios. But standard software calculates confidence intervals assuming independent returns. When autocorrelation is present, standard formulas fail silently. Welcome to SharpeLab."*
-- **Click**: None (Mouse hovers over brand tagline and disclosure badges).
-- **Expected Visual**: Crisp dark-mode header with cyan branding and "Deterministic Offline Replay" badge.
+> **Resolution**: 1080p (1920x1080, 60fps)  
+> **Total Duration**: 180 Seconds (3:00 Minutes)  
+> **Local Server URL**: `http://localhost:8080/ui/sharpelab/index.html`
 
 ---
 
-### Scene 2: The Two Analysts Mystery
-- **Time Window**: 0:20 - 0:40 (20s)
-- **Screen**: Section A — Analyst Cards comparison (Analyst A Naive IID vs Analyst B Dependence-Aware HAC).
-- **Narration**: *"Two analysts receive the exact same 250 return observations. Both calculate the exact same Sharpe estimate of 0.1253. But Analyst A reports a significant positive result, while Analyst B reports zero overlap. Same data. Same estimate. Opposite conclusions. Why?"*
-- **Click**: Mouse highlights 3-part contrast metrics (Estimate: 0.1253, SE: 0.0635 vs 0.0851, CI bounds).
-- **Expected Visual**: Red border on Analyst Card A (`NOT ADMISSIBLE`), green border on Analyst Card B (`SUPPORTED BY EVIDENCE`).
+## Scene 1: The Framework & Mystery
+- **Timestamp**: `0:00 – 0:25`
+- **Duration**: 25 Seconds
+- **Screen State**: Initial page load. Header displays *Evidence-Routed Inference: AI that reasons explicitly about scientific assumptions*. Act 1 Mystery Box visible.
+- **Click / Action**: Mouse hovers near the *Investigate* button.
+- **Narration**: *"Standard AI tools and statistical software calculate answers under hidden, unverified assumptions. When data violate those assumptions, software fails silently—leading honest experts to reach opposite conclusions from identical data. We built Evidence-Routed Inference—an AI architecture that makes scientific assumptions explicit, testable, and auditable."*
+- **Visual Focus**: Zoom on brand title and mystery question: *"Can two honest experts reach opposite conclusions from the same data?"*
 
 ---
 
-### Scene 3: Revealing Scenario 1 (Sensitive to Assumptions)
-- **Time Window**: 0:40 - 2:10 (90s)
-- **Screen**: Sections B (Evidence Matrix), C (Admissibility Route), and D (Final Verdict Banner).
-- **Narration**: *"Let's reveal the hidden assumption. The Ljung-Box test detects autocorrelation ($p = 3.00 \times 10^{-6}$), contradicting independence. SharpeLab rules Naive IID 'Not scientifically admissible' and selects Bartlett HAC. Uncertainty expands by +34%, causing the confidence interval to cross zero. Verdict: Sensitive to assumptions."*
-- **Click**: **CLICK** `[ Reveal hidden assumption ]` button at 0:45.
-- **Expected Visual**: Smooth CSS reveal of Evidence Matrix (`CONTRADICTS IID`), Admissibility Table (`Not scientifically admissible`), horizontal confidence interval chart with zero line crossing, and amber Verdict Banner **“Sensitive to assumptions”**.
+## Scene 2: SharpeLab Introduction
+- **Timestamp**: `0:25 – 0:45`
+- **Duration**: 20 Seconds
+- **Screen State**: Act 1 Mystery Box centered.
+- **Click / Action**: None (cursor moves to *Investigate* button).
+- **Narration**: *"To demonstrate this framework, we built SharpeLab. In financial quantitative research, the Sharpe ratio measures return per unit of risk. Standard software computes confidence intervals assuming returns are independent and identically distributed. Let's see what happens when that implicit assumption breaks."*
+- **Visual Focus**: Highlight *SharpeLab — Interactive Demonstration* tag.
 
 ---
 
-### Scene 4: Scenario 2 (Robust Under Volatility)
-- **Time Window**: 2:10 - 2:40 (30s)
-- **Screen**: Scenario Switcher Tab 2 — `[ Robust under volatility ]`.
-- **Narration**: *"Does SharpeLab always overturn an analysis? No! Switching to 'Robust under volatility', ARCH-LM detects volatility clustering. Naive IID is again inadmissible, but every admissible robust method—both HAC and Bootstrap—confirms $CI > 0$. Verdict: Robust."*
-- **Click**:
-  1. **CLICK** tab `[ Robust under volatility ]` at 2:10.
-  2. **CLICK** `[ Reveal hidden assumption ]` button at 2:20.
-- **Expected Visual**: Instant content reset, green Verdict Banner **“Robust”**, confidence interval chart showing both HAC & Bootstrap bars strictly to the right of zero (`[0.0391, 0.3033]` & `[0.0686, 0.2779]`).
+## Scene 3: The Conflict & Reveal
+- **Timestamp**: `0:45 – 1:55`
+- **Duration**: 70 Seconds
+- **Screen State**: Act 2 (The Conflict) revealed showing Analyst A (Naive IID) vs Analyst B (HAC).
+- **Click / Action**:  
+  1. At `0:45`: Click **[ INVESTIGATE ]** button.  
+  2. At `1:15`: Click **[ REVEAL HIDDEN ASSUMPTION ]** button.
+- **Narration**: *"Notice the conflict: Same return data. Same point estimate of zero-point-one-two-five-three. But Analyst A concludes the performance is statistically positive, while Analyst B concludes it is uncertain. The disagreement is not about the arithmetic—it is about how uncertainty is modeled. We click Reveal hidden assumption. The diagnostic engine detects serial dependence with a Ljung-Box p-value of three times ten to the minus six. The framework rules the naive independence model Not scientifically admissible. Once dependence-aware robust methods are used, the confidence interval crosses zero. The apparent finding disappears when the inadmissible assumption is removed."*
+- **Visual Focus**: Highlight Analyst cards, then jump to Act 3 Evidence Matrix and Act 5 Verdict Banner (**Sensitive to assumptions**).
 
 ---
 
-### Scene 5: Scenario 3 (Cannot Conclude / Structural Shift)
-- **Time Window**: 2:40 - 3:10 (30s)
-- **Screen**: Scenario Switcher Tab 3 — `[ Cannot conclude ]`.
-- **Narration**: *"What if data undergo a structural shift? Under a mean break, Split-Chow detects instability. Standard software computes a full-sample Sharpe ratio anyway. SharpeLab deterministically abstains, issuing the verdict: Cannot conclude."*
-- **Click**:
-  1. **CLICK** tab `[ Cannot conclude ]` at 2:40.
-  2. **CLICK** `[ Reveal hidden assumption ]` button at 2:50.
-- **Expected Visual**: Red Verdict Banner **“Cannot conclude”**, Structural Break Visual Strip highlighting sub-sample mean shift (-0.010 vs +0.030), and full-sample estimators marked `Abstained`.
+## Scene 4: Robust Outcome
+- **Timestamp**: `1:55 – 2:15`
+- **Duration**: 20 Seconds
+- **Screen State**: User clicks *Robust under volatility* tab.
+- **Click / Action**: At `1:55`, click **[ Robust under volatility ]** tab.
+- **Narration**: *"What if the evidence rejects independence due to volatility clustering instead? Under our second scenario, the engine detects ARCH effects and rules Naive IID inadmissible. However, every scientifically admissible robust method—both HAC and block bootstrap—still confirms the interval is strictly above zero. The verdict is Robust."*
+- **Visual Focus**: Green Verdict Banner (**Robust**) and Confidence Interval Visualizer.
 
 ---
 
-### Scene 6: Architecture & Audit Log Closing
-- **Time Window**: 3:10 - 3:40 (30s)
-- **Screen**: Collapsible Audit Log Drawer and system summary.
-- **Narration**: *"Every diagnostic request, eligibility rule, and verdict is recorded in an unalterable audit trail. SharpeLab does not ask whether a calculation is mathematically valid. It asks whether the conclusion survives every scientifically admissible interpretation of the data. Thank you!"*
-- **Click**: **CLICK** `[ ▸ View Audit Trail Log (#evt-8f92a10c) ]` at 3:15.
-- **Expected Visual**: Expanded monospace audit event log (`[orchestrator] workflow-started`, `[deterministic-core] final-decision`).
+## Scene 5: Structural Break & Abstention
+- **Timestamp**: `2:15 – 2:35`
+- **Duration**: 20 Seconds
+- **Screen State**: User clicks *Cannot conclude* tab.
+- **Click / Action**: At `2:15`, click **[ Cannot conclude ]** tab.
+- **Narration**: *"Under our third scenario, the diagnostic engine detects a structural mean break mid-sample. Evaluating a single full-sample Sharpe ratio is scientifically incoherent when the underlying process shifts. Instead of forcing an ungrounded answer, the system explicitly abstains: Cannot conclude."*
+- **Visual Focus**: Red Regime Break Visual Strip and Red Verdict Banner (**Cannot conclude**).
 
 ---
 
-## Storyboard Runtime Summary
+## Scene 6: Architecture & Broader Relevance
+- **Timestamp**: `2:35 – 2:55`
+- **Duration**: 20 Seconds
+- **Screen State**: Scroll down to Act 6 (Beyond Finance: A General Architecture).
+- **Click / Action**: Smooth scroll down.
+- **Narration**: *"SharpeLab demonstrates finance, but the architecture is general. Wherever scientific findings depend on hidden assumptions—whether in clinical trials, econometrics, psychology, or climate science—Evidence-Routed Inference ensures conclusions are tested against admissible evidence rules."*
+- **Visual Focus**: Grid of 4 domain cards (Clinical Trials, Econometrics, Psychology, Climate Science).
 
-| Scene | Subject | Duration | Cumulative Time |
-| :--- | :--- | :---: | :---: |
-| Scene 1 | Introduction & Product Framing | 20s | 0:20 |
-| Scene 2 | The Two Analysts Mystery | 20s | 0:40 |
-| Scene 3 | Scenario 1: Sensitive to Assumptions | 90s | 2:10 |
-| Scene 4 | Scenario 2: Robust Under Volatility | 30s | 2:40 |
-| Scene 5 | Scenario 3: Cannot Conclude | 30s | 3:10 |
-| Scene 6 | Architecture & Audit Log Closing | 30s | 3:40 |
+---
 
-**Total Video Duration:** Exactly 3:40 (or 3:00 tight edit).
+## Scene 7: Closing
+- **Timestamp**: `2:55 – 3:00`
+- **Duration**: 5 Seconds
+- **Screen State**: Bottom of page centered on closing statement.
+- **Click / Action**: Freeze frame.
+- **Narration**: *"Evidence-Routed Inference: Making scientific assumptions explicit. Thank you."*
+- **Visual Focus**: Final line: *Evidence-Routed Inference — Making scientific assumptions explicit.*
+
+---
+
+## Storyboard Duration Verification Table
+
+| Scene # | Scene Description | Start Time | End Time | Duration (s) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Scene 1** | Framework & Mystery | 0:00 | 0:25 | 25s |
+| **Scene 2** | SharpeLab Intro | 0:25 | 0:45 | 20s |
+| **Scene 3** | Conflict & Sensitive Verdict | 0:45 | 1:55 | 70s |
+| **Scene 4** | Robust Outcome | 1:55 | 2:15 | 20s |
+| **Scene 5** | Cannot Conclude Outcome | 2:15 | 2:35 | 20s |
+| **Scene 6** | Architecture & Broader Relevance | 2:35 | 2:55 | 20s |
+| **Scene 7** | Closing | 2:55 | 3:00 | 5s |
+| **TOTAL** | **Full Demo Video** | **0:00** | **3:00** | **180s** |

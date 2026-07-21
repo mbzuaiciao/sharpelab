@@ -1,4 +1,4 @@
-/* SharpeLab Visual Explorer Stylesheet */
+/* Evidence-Routed Inference & SharpeLab Visual Explorer Stylesheet */
 
 :root {
   --bg-primary: #0b0f19;
@@ -39,7 +39,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-header {
+header.framework-header {
   margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 1.25rem;
@@ -51,24 +51,24 @@ header {
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 1.25rem;
 }
 
 .brand-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
   font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: -0.025em;
   color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
 }
 
-.brand-tagline {
+.brand-subtitle {
   font-size: 0.95rem;
   color: var(--accent-blue);
   font-weight: 500;
-  font-style: italic;
 }
 
 .badge-group {
@@ -118,6 +118,41 @@ header {
   border: 1px solid rgba(100, 116, 139, 0.3);
 }
 
+/* Act 1: Mystery Box */
+.mystery-box {
+  background: rgba(19, 29, 49, 0.8);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent-blue);
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.demo-tag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.mystery-question {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin-bottom: 1rem;
+}
+
+.mystery-explanation {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 800px;
+  margin: 0 auto 1.5rem auto;
+  line-height: 1.6;
+}
+
 /* Scenario Switcher Bar */
 .scenario-switcher-bar {
   display: flex;
@@ -127,6 +162,7 @@ header {
   border-radius: 6px;
   border: 1px solid var(--border-color);
   flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
 
 .scenario-btn {
@@ -172,7 +208,7 @@ header {
 .dot-green { background: var(--accent-green); }
 .dot-red { background: var(--accent-red); }
 
-/* Sections */
+/* Section Panel */
 .section-panel {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -323,7 +359,7 @@ header {
 
 .chart-row {
   display: grid;
-  grid-template-columns: 180px 1fr 140px;
+  grid-template-columns: 220px 1fr 140px;
   align-items: center;
   gap: 1rem;
   font-size: 0.85rem;
@@ -412,7 +448,7 @@ header {
   color: #0b0f19;
   font-weight: 700;
   font-size: 1rem;
-  padding: 0.85rem 2rem;
+  padding: 0.85rem 2.25rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -427,35 +463,88 @@ header {
   transform: translateY(-1px);
 }
 
-/* Evidence List */
+/* Act 3: Evidence Matrix */
 .evidence-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.85rem;
 }
 
 .evidence-item {
   background: rgba(15, 23, 42, 0.3);
   border: 1px solid var(--border-color);
-  padding: 1rem;
+  padding: 1.1rem;
   border-radius: 6px;
 }
 
-.evidence-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.35rem;
+.evidence-finding-headline {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
 }
 
-.evidence-name {
+.evidence-implication {
+  font-size: 0.9rem;
+  color: var(--accent-amber);
   font-weight: 600;
-  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
 }
 
-.evidence-desc {
-  font-size: 0.875rem;
+.evidence-technical-detail {
+  font-family: var(--font-mono);
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.35rem 0.6rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Act 4: Conceptual Pipeline Strip & Governance Note */
+.pipeline-strip {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 1.25rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.step-node {
+  color: var(--accent-blue);
+}
+
+.agent-governance-note {
+  margin-top: 1rem;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+}
+
+.agent-governance-note summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.agent-governance-note summary:focus-visible {
+  outline: 2px solid var(--accent-blue);
+}
+
+.agent-governance-note p {
+  margin-top: 0.5rem;
   line-height: 1.4;
 }
 
@@ -479,7 +568,7 @@ header {
   background: rgba(15, 23, 42, 0.5);
 }
 
-/* Verdict Section */
+/* Act 5: Verdict Section */
 .verdict-box {
   border-radius: 8px;
   padding: 1.5rem;
@@ -523,6 +612,17 @@ header {
   font-size: 0.95rem;
   color: var(--text-primary);
   line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.verdict-key-takeaway {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  border-left: 3px solid currentColor;
 }
 
 /* Collapsible Audit Trail */
@@ -565,6 +665,82 @@ header {
   color: var(--text-secondary);
 }
 
+/* Act 6: General Principle Framework Box */
+.framework-closing-box {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.75rem;
+}
+
+.framework-tag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+
+.framework-closing-box h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.framework-desc {
+  font-size: 0.925rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.domain-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.domain-icon {
+  font-size: 1.3rem;
+}
+
+.domain-sub {
+  font-size: 0.775rem;
+  color: var(--text-muted);
+}
+
+.caution-box {
+  font-size: 0.825rem;
+  color: var(--accent-amber);
+  background: var(--accent-amber-bg);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  margin-bottom: 1.25rem;
+}
+
+.final-closing {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+}
+
 /* Fallback Error Box */
 .error-box {
   background: var(--accent-red-bg);
@@ -583,4 +759,11 @@ header {
 
 .hidden-step {
   display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }

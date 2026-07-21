@@ -1,12 +1,55 @@
-// SharpeLab Visual Explorer Application Logic
+// Evidence-Routed Inference & SharpeLab Visual Explorer Application Logic
 
 let currentScenarioId = 'ar1-assumption-sensitive';
 const payloadCache = {};
+let hasRevealed = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
+  setupButtons();
   setupScenarioSwitcher();
   await loadAndRenderScenario(currentScenarioId);
 });
+
+function setupButtons() {
+  const btnInvestigate = document.getElementById('btn-investigate');
+  if (btnInvestigate) {
+    btnInvestigate.addEventListener('click', () => {
+      document.getElementById('act-1-mystery').classList.add('hidden-step');
+      document.getElementById('act-scenario-bar').classList.remove('hidden-step');
+      document.getElementById('act-2-conflict').classList.remove('hidden-step');
+    });
+  }
+
+  const btnReveal = document.getElementById('btn-reveal');
+  if (btnReveal) {
+    btnReveal.addEventListener('click', () => {
+      hasRevealed = true;
+      showRevealedActs();
+      btnReveal.style.display = 'none';
+    });
+  }
+}
+
+function showRevealedActs() {
+  document.getElementById('act-3-evidence').classList.remove('hidden-step');
+  document.getElementById('act-4-routing').classList.remove('hidden-step');
+  document.getElementById('act-5-verdict').classList.remove('hidden-step');
+  document.getElementById('act-6-framework').classList.remove('hidden-step');
+}
+
+function resetRevealState() {
+  hasRevealed = false;
+  document.getElementById('act-3-evidence').classList.add('hidden-step');
+  document.getElementById('act-4-routing').classList.add('hidden-step');
+  document.getElementById('act-5-verdict').classList.add('hidden-step');
+  document.getElementById('act-6-framework').classList.add('hidden-step');
+
+  const btnReveal = document.getElementById('btn-reveal');
+  if (btnReveal) btnReveal.style.display = 'inline-block';
+
+  const auditContainer = document.getElementById('audit-container');
+  if (auditContainer) auditContainer.classList.remove('active');
+}
 
 function setupScenarioSwitcher() {
   const buttons = document.querySelectorAll('.scenario-btn');
@@ -27,17 +70,6 @@ function setupScenarioSwitcher() {
       await loadAndRenderScenario(scenarioId);
     });
   });
-}
-
-function resetRevealState() {
-  document.getElementById('section-evidence').classList.add('hidden-step');
-  document.getElementById('section-admissibility').classList.add('hidden-step');
-  document.getElementById('section-verdict').classList.add('hidden-step');
-  const btnReveal = document.getElementById('btn-reveal');
-  if (btnReveal) btnReveal.style.display = 'inline-block';
-  
-  const auditContainer = document.getElementById('audit-container');
-  if (auditContainer) auditContainer.classList.remove('active');
 }
 
 async function loadAndRenderScenario(scenarioId) {
@@ -65,15 +97,14 @@ async function loadAndRenderScenario(scenarioId) {
 }
 
 function renderPayload(payload) {
-  // 1. Headline & Hook Text
+  // 1. Headline & Disclosures
   document.getElementById('headline-title').textContent = payload.headline;
   document.getElementById('headline-sub').textContent = payload.disagreement_hook_text;
   document.getElementById('rule-disclosure').innerHTML = `<strong>Demo Rule:</strong> ${payload.rule_disclosure}`;
-
   document.getElementById('disclosure-badge').textContent = payload.synthetic_disclosure;
   document.getElementById('execution-badge').textContent = payload.execution_mode;
 
-  // 2. Analyst / Specification Comparison Cards
+  // 2. Comparison Cards (Act 2)
   const analystContainer = document.getElementById('analyst-cards-container');
   analystContainer.innerHTML = payload.analyst_cards.map(card => {
     const isSupported = card.categorical_decision === 'SUPPORTED';
@@ -89,7 +120,7 @@ function renderPayload(payload) {
             </div>
             <div class="contrast-box">
               <div class="contrast-row">
-                <span class="contrast-label">Estimator Status</span>
+                <span class="contrast-label">Analysis Model</span>
                 <span class="contrast-val" style="color: var(--accent-red);">${card.method_name}</span>
               </div>
               <div class="contrast-row">
@@ -113,11 +144,15 @@ function renderPayload(payload) {
       `;
     }
 
+    const titleLabel = card.analyst_id === 'analyst-a-naive' 
+      ? 'Analysis assuming independent returns' 
+      : (card.analyst_id === 'analyst-b-robust' ? 'Analysis allowing serial dependence' : card.title);
+
     return `
       <div class="analyst-card ${isAdmissible ? 'admissible-card' : 'ineligible-card'}">
         <div>
           <div class="card-title">
-            <span>${card.title}</span>
+            <span>${titleLabel}</span>
             <span class="badge ${isAdmissible ? 'badge-green' : 'badge-red'}">
               ${isAdmissible ? 'SUPPORTED BY EVIDENCE' : 'NOT ADMISSIBLE'}
             </span>
@@ -153,7 +188,7 @@ function renderPayload(payload) {
     `;
   }).join('');
 
-  // 3. Interval Comparison Graphic / Regime Break Visual Strip
+  // 3. Confidence Interval Chart Graphic / Visual Strip
   const chartBarsContainer = document.getElementById('chart-bars');
   const visualizerHeader = document.getElementById('visualizer-header');
 
@@ -187,12 +222,11 @@ function renderPayload(payload) {
       </div>
     `;
   } else {
-    // Sensitive scenario chart
     visualizerHeader.innerHTML = `<span>95% Confidence Interval Comparison</span><span style="font-size: 0.8rem; color: var(--text-secondary);">Vertical line = Zero Benchmark (0.0)</span>`;
     chartBarsContainer.innerHTML = `
       <div class="zero-reference-line" title="Zero Benchmark (0.0)"></div>
       <div class="chart-row">
-        <div class="chart-label">Naive IID Gaussian</div>
+        <div class="chart-label">Analysis assuming independent returns</div>
         <div class="chart-track">
           <div class="interval-bar green-bar" style="left: 35.5%; width: 30%;"></div>
           <div class="point-dot" style="left: 50.5%;" title="Point Estimate: 0.1253"></div>
@@ -200,7 +234,7 @@ function renderPayload(payload) {
         <div class="chart-stat" style="color: var(--accent-green);">[0.0008, 0.2497] ✓</div>
       </div>
       <div class="chart-row">
-        <div class="chart-label">Bartlett HAC (Primary)</div>
+        <div class="chart-label">Analysis allowing serial dependence (HAC)</div>
         <div class="chart-track">
           <div class="interval-bar red-bar" style="left: 30%; width: 42%;"></div>
           <div class="point-dot" style="left: 50.5%;" title="Point Estimate: 0.1253"></div>
@@ -208,7 +242,7 @@ function renderPayload(payload) {
         <div class="chart-stat" style="color: var(--accent-amber);">[-0.0415, 0.2921] ✕</div>
       </div>
       <div class="chart-row">
-        <div class="chart-label">Circular Block Bootstrap</div>
+        <div class="chart-label">Circular Block Bootstrap (Cross-check)</div>
         <div class="chart-track">
           <div class="interval-bar red-bar" style="left: 33.8%; width: 37.5%;"></div>
           <div class="point-dot" style="left: 50.5%;" title="Point Estimate: 0.1253"></div>
@@ -218,35 +252,42 @@ function renderPayload(payload) {
     `;
   }
 
-  // 4. Diagnostic Evidence Matrix
+  // 4. Act 3 Plain-Language Evidence Matrix (Hierarchy: Finding -> Implication -> Diagnostic)
   const evidenceContainer = document.getElementById('evidence-container');
   evidenceContainer.innerHTML = payload.evidence_cards.map(ev => {
-    let badgeClass = 'badge-muted';
-    let badgeText = ev.direction_badge;
-    if (ev.direction_badge === 'CONTRADICTS') {
-      badgeClass = 'badge-red';
-      badgeText = 'CONTRADICTS ASSUMPTION';
+    let headlineFinding = "Returns exhibit serial dependence.";
+    let implicationText = "Independence is not supported. The naive uncertainty model is therefore not scientifically admissible.";
+    
+    if (ev.diagnostic_name.includes("Volatility")) {
+      headlineFinding = "Returns exhibit volatility clustering.";
+      implicationText = "Independence is not supported. Constant variance model is not scientifically admissible.";
+    } else if (ev.diagnostic_name.includes("Stability")) {
+      if (ev.direction_badge === "CONTRADICTS") {
+        headlineFinding = "Return-generating process undergoes a structural mean break.";
+        implicationText = "Full-sample stationarity is not supported. Full-sample Sharpe ratio is scientifically incoherent.";
+      } else {
+        headlineFinding = "Sub-sample mean and variance remain stable across the window.";
+        implicationText = "Stationarity assumption is supported by empirical sub-sample test.";
+      }
     }
-    if (ev.direction_badge === 'SUPPORTS') {
-      badgeClass = 'badge-green';
-      badgeText = 'SUPPORTS ASSUMPTION';
-    }
+
+    let badgeClass = ev.direction_badge === 'CONTRADICTS' ? 'badge-red' : (ev.direction_badge === 'SUPPORTS' ? 'badge-green' : 'badge-muted');
 
     return `
       <div class="evidence-item">
         <div class="evidence-top">
-          <span class="evidence-name">${ev.diagnostic_name}</span>
-          <span class="badge ${badgeClass}">${badgeText}</span>
+          <div class="evidence-finding-headline">1. Finding: ${headlineFinding}</div>
+          <span class="badge ${badgeClass}">${ev.direction_badge} ASSUMPTION</span>
         </div>
-        <div class="evidence-desc">${ev.interpretation}</div>
-        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">
-          Statistic: ${ev.statistic !== null ? ev.statistic.toFixed(4) : 'N/A'} | p-value: ${ev.p_value !== null ? ev.p_value.toExponential(2) : 'N/A'}
+        <div class="evidence-implication">2. Implication: ${implicationText}</div>
+        <div class="evidence-technical-detail">
+          3. Technical Diagnostic: ${ev.diagnostic_name} | Statistic: ${ev.statistic !== null ? ev.statistic.toFixed(4) : 'N/A'} | p-value: ${ev.p_value !== null ? ev.p_value.toExponential(2) : 'N/A'}
         </div>
       </div>
     `;
   }).join('');
 
-  // 5. Admissibility Table
+  // 5. Act 4 Admissibility Table
   const admissibilityContainer = document.getElementById('admissibility-container');
   admissibilityContainer.innerHTML = payload.admissibility_cards.map(adm => {
     let badgeClass = 'badge-red';
@@ -269,21 +310,25 @@ function renderPayload(payload) {
     `;
   }).join('');
 
-  // 6. Verdict Banner
+  // 6. Act 5 Verdict Banner
   const verdictBox = document.getElementById('verdict-box');
   const verdictBadge = document.getElementById('verdict-badge');
   const verdictTitle = document.getElementById('verdict-title');
+  const verdictTakeaway = document.getElementById('verdict-takeaway');
 
   verdictBox.className = 'verdict-box';
   if (payload.scenario_type === 'robust') {
     verdictBox.classList.add('verdict-robust');
     verdictBadge.className = 'badge badge-green';
+    verdictTakeaway.textContent = "The evidence rejects IID assumptions, but every scientifically admissible method still reaches the same positive conclusion.";
   } else if (payload.scenario_type === 'abstain') {
     verdictBox.classList.add('verdict-abstain');
     verdictBadge.className = 'badge badge-red';
+    verdictTakeaway.textContent = "A structural break makes a single full-period conclusion scientifically incoherent, so the system abstains rather than forcing an answer.";
   } else {
     verdictBox.classList.add('verdict-sensitive');
     verdictBadge.className = 'badge badge-amber';
+    verdictTakeaway.textContent = "The apparent finding disappears when the inadmissible assumption is removed.";
   }
 
   verdictTitle.textContent = payload.verdict_label;
@@ -299,30 +344,17 @@ function renderPayload(payload) {
     </div>
   `).join('');
 
-  // 8. Reveal Button Handler
-  const btnReveal = document.getElementById('btn-reveal');
-  if (btnReveal) {
-    btnReveal.onclick = () => {
-      document.getElementById('section-evidence').classList.remove('hidden-step');
-      document.getElementById('section-admissibility').classList.remove('hidden-step');
-      document.getElementById('section-verdict').classList.remove('hidden-step');
-      btnReveal.style.display = 'none';
-
-      document.getElementById('section-evidence').scrollIntoView({ behavior: 'smooth' });
-    };
-  }
-
-  // 9. Audit Toggle Handler
+  // Audit Toggle Handler
   const btnToggleAudit = document.getElementById('btn-toggle-audit');
   if (btnToggleAudit) {
     btnToggleAudit.onclick = () => {
       const isVisible = auditContainer.classList.contains('active');
       if (isVisible) {
         auditContainer.classList.remove('active');
-        btnToggleAudit.textContent = '▸ View Audit Trail Log (#evt-8f92a10c)';
+        btnToggleAudit.textContent = '▸ View Unalterable Audit Trail Log (#evt-8f92a10c)';
       } else {
         auditContainer.classList.add('active');
-        btnToggleAudit.textContent = '▾ Hide Audit Trail Log (#evt-8f92a10c)';
+        btnToggleAudit.textContent = '▾ Hide Unalterable Audit Trail Log (#evt-8f92a10c)';
       }
     };
   }

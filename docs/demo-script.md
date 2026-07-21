@@ -1,117 +1,70 @@
-# SharpeLab Three-Minute Live Presentation Script
+# Evidence-Routed Inference // 3-Minute Live Presentation Script
 
-> **Total Runtime:** Exactly 3 Minutes (180 Seconds)
-> **Presenter Goal:** Demonstrate how SharpeLab surfaces hidden statistical assumption failures, governs method eligibility, and evaluates conclusion robustness across admissible specifications.
-
----
-
-## Script Overview & Timeline
-
-| Segment | Target Time | Action / Clicks | Focus |
-| :--- | :---: | :--- | :--- |
-| **1. Opening** | 0:00 - 0:20 (20s) | Initial Screen (`ar1-assumption-sensitive`) | Introduce tagline and core thesis |
-| **2. The Problem** | 0:20 - 0:40 (20s) | Highlight Analyst Cards A & B | The "Two Analysts, Same Data" Hook |
-| **3. Scenario 1 (Sensitive)** | 0:40 - 2:10 (90s) | **CLICK:** `[ Reveal hidden assumption ]` | Diagnostic Evidence, Admissibility, Verdict |
-| **4. Scenario 2 (Robust)** | 2:10 - 2:40 (30s) | **CLICK:** `[ Robust under volatility ]` | Confirming conclusions across valid specs |
-| **5. Scenario 3 (Abstain)** | 2:40 - 3:10 (30s) | **CLICK:** `[ Cannot conclude ]` | Structural break & automatic abstention |
-| **6. Architecture & Closing**| 3:10 - 3:40 (30s) | Scroll / Audit Trail Drawer | Governance core & auditable verdict |
+> **Target Duration**: 2:45 to 3:00 (180 Seconds Total)  
+> **Presenter**: Live Hackathon Demonstrator  
+> **Interface**: `http://localhost:8080/ui/sharpelab/index.html`
 
 ---
 
-## Full Presentation Script
+## Script & Timing Breakdown
 
-### 1. Opening (0:00 - 0:20) — 20 Seconds
-**[Visual: Initial browser screen showing SharpeLab header and Scenario 1]**
-
-> *"Hello! Every day, portfolio managers and quantitative risk committees make allocation decisions based on Sharpe ratio estimates. But standard statistical software almost always returns a confidence interval when asked—even when the underlying mathematical model is completely invalid for the data.*
->
-> *Welcome to **SharpeLab**. Our tagline is: **The data did not disagree. The assumptions did.***"
+### Segment 1 — Broad Problem & Framework (0:00 – 0:25 | 25 Seconds)
+- **Visual**: Screen shows top header: **Evidence-Routed Inference: AI that reasons explicitly about scientific assumptions**, and Act 1 Mystery Box.
+- **Narration**:  
+  "Standard AI tools and statistical software calculate answers under hidden, unverified assumptions. When data violate those assumptions, software fails silently—leading honest experts to reach opposite conclusions from identical data. We built *Evidence-Routed Inference*—an AI architecture that makes scientific assumptions explicit, testable, and auditable."
 
 ---
 
-### 2. The Problem (0:20 - 0:40) — 20 Seconds
-**[Visual: Mouse hovers over Analyst Card A (Naive IID) and Analyst Card B (HAC)]**
-
-> *"Look at this opening scenario. Two analysts receive the exact same return series of 250 observations. Both calculate the exact same Sharpe ratio estimate of **0.1253**.*
->
-> *Yet Analyst A concludes the Sharpe ratio is significantly positive ($CI = [0.0008, 0.2497]$), while Analyst B concludes the result cannot be distinguished from zero ($CI = [-0.0415, 0.2921]$).*
->
-> *Same data. Same Sharpe estimate. Opposite conclusions. Why?"*
-
-`[PAUSE 2 SECONDS FOR EFFECT]`
+### Segment 2 — SharpeLab & Sharpe Ratio Context (0:25 – 0:45 | 20 Seconds)
+- **Visual**: Focus on *SharpeLab — Interactive Demonstration* tag and the initial mystery question.
+- **Narration**:  
+  "To demonstrate this framework, we built *SharpeLab*. In financial quantitative research, the Sharpe ratio measures return per unit of risk. Standard software computes confidence intervals assuming returns are independent and identically distributed. Let's see what happens when that implicit assumption breaks."
 
 ---
 
-### 3. Scenario 1: Sensitive to Assumptions (0:40 - 2:10) — 90 Seconds
+### Segment 3 — The Primary Scenario: Sensitive to Assumptions (0:45 – 1:55 | 70 Seconds)
+- **Action**: Click **[ INVESTIGATE ]** button.
+- **Visual**: Act 1 collapses. Act 2 (The Conflict) appears showing Analyst A ($CI = [0.0008, 0.2497]$, Supported) vs Analyst B ($CI = [-0.0415, 0.2921]$, Not Supported).
+- **Narration**:  
+  "Notice the conflict: Same return data. Same point estimate of zero-point-one-two-five-three. But Analyst A concludes the performance is statistically positive, while Analyst B concludes it is uncertain. The disagreement is not about the arithmetic—it is about how uncertainty is modeled."
 
-**[Action: PRESS BUTTON `[ Reveal hidden assumption ]` at 0:45]**
-
-> *"Let's reveal the hidden assumption.*
->
-> *When we click **Reveal hidden assumption**, SharpeLab runs deterministic diagnostics on the return series.
-> Look at the Evidence Matrix: The **Ljung-Box test** detects significant linear autocorrelation ($p = 3.00 \times 10^{-6}$). Today's return contains information about later returns.*
->
-> *This empirically **contradicts** the independence assumption required for standard Gaussian formulas.*
-
-`[PAUSE 2 SECONDS — Point mouse to Section 2: Scientific Admissibility Route]`
-
-> *Because the independence assumption is violated, SharpeLab's deterministic eligibility router marks the Naive IID Gaussian method as **Not scientifically admissible**.*
->
-> *Instead, it selects **Bartlett Newey-West HAC** as the primary admissible estimator and **Circular Block Bootstrap** as a sensitivity cross-check.*
->
-> *Notice what happened to uncertainty: Accounting for autocorrelation expands the standard error by **34%**, causing the 95% confidence interval to cross zero.*
->
-> *SharpeLab issues a formal verdict: **Sensitive to assumptions**.*
->
-> *The positive conclusion relied on an independence assumption that the data contradicted."*
+- **Action**: Click **[ REVEAL HIDDEN ASSUMPTION ]** button.
+- **Visual**: Acts 3, 4, 5, and 6 appear. Act 3 shows plain-language evidence (*Returns exhibit serial dependence*), Act 4 shows Admissibility Router, Act 5 shows **Sensitive to assumptions** verdict.
+- **Narration**:  
+  "We click *Reveal hidden assumption*. The diagnostic engine detects serial dependence with a Ljung-Box p-value of three times ten to the minus six. The framework rules the naive independence model *Not scientifically admissible*. Once dependence-aware robust methods are used, the confidence interval crosses zero. The apparent finding disappears when the inadmissible assumption is removed."
 
 ---
 
-### 4. Scenario 2: Robust (2:10 - 2:40) — 30 Seconds
-
-**[Action: CLICK SCENARIO SWITCHER `[ Robust under volatility ]` at 2:10]**
-
-> *"Now, does SharpeLab always overturn an analysis? No!
->
-> Let's switch to our second scenario: **Robust under volatility**.*
-
-**[Action: PRESS BUTTON `[ Reveal hidden assumption ]` at 2:20]**
-
-> *Here, the diagnostic matrix detects volatility clustering—ARCH-LM $p = 4.67 \times 10^{-5}$. Once again, naive IID is ruled inadmissible.*
->
-> *However, when we evaluate every scientifically admissible robust method—both Bartlett HAC ($CI = [0.0391, 0.3033]$) and Circular Block Bootstrap ($CI = [0.0686, 0.2779]$)—both confidence intervals remain strictly above zero.*
->
-> *SharpeLab issues the verdict: **Robust**. The uncertainty model changed, but every valid method agrees."*
+### Segment 4 — Scenario 2: Robust Under Volatility (1:55 – 2:15 | 20 Seconds)
+- **Action**: Click **[ Robust under volatility ]** tab on the scenario switcher bar.
+- **Visual**: Cards update instantly to GARCH(1,1) volatility clustering scenario. Verdict banner turns GREEN: **Robust**.
+- **Narration**:  
+  "What if the evidence rejects independence due to volatility clustering instead? Under our second scenario, the engine detects ARCH effects and rules Naive IID inadmissible. However, every scientifically admissible robust method—both HAC and block bootstrap—still confirms the interval is strictly above zero. The verdict is *Robust*."
 
 ---
 
-### 5. Scenario 3: Cannot Conclude (2:40 - 3:10) — 30 Seconds
-
-**[Action: CLICK SCENARIO SWITCHER `[ Cannot conclude ]` at 2:40]**
-
-> *"Finally, what happens when data undergo a major structural shift?
->
-> Let's select **Cannot conclude**.*
-
-**[Action: PRESS BUTTON `[ Reveal hidden assumption ]` at 2:50]**
-
-> *Here, the Split-Chow test detects a material mean break midway through the evaluation window.
->
-> Standard software will happily calculate a single full-sample Sharpe ratio anyway. But SharpeLab recognizes that population parameters do not exist under structural instability.*
->
-> *The deterministic workflow **abstains**, ruling all full-sample estimators inadmissible and issuing the verdict: **Cannot conclude**."*
+### Segment 5 — Scenario 3: Cannot Conclude (2:15 – 2:35 | 20 Seconds)
+- **Action**: Click **[ Cannot conclude ]** tab on the scenario switcher bar.
+- **Visual**: Cards update to Structural Break scenario. Red Regime Break Visual Strip appears. Verdict banner turns RED: **Cannot conclude**.
+- **Narration**:  
+  "Under our third scenario, the diagnostic engine detects a structural mean break mid-sample. Evaluating a single full-sample Sharpe ratio is scientifically incoherent when the underlying process shifts. Instead of forcing an ungrounded answer, the system explicitly abstains: *Cannot conclude*."
 
 ---
 
-### 6. Architecture & Closing (3:10 - 3:40) — 30 Seconds
-
-**[Action: CLICK `[ ▸ View Audit Trail Log ]` at 3:15]**
-
-> *"Behind the scenes, SharpeLab combines deterministic statistical routing with structured Phase 4A audit agents. Every diagnostic request, eligibility decision, and proposal rejection is recorded in an unalterable audit log.*
->
-> *SharpeLab does not ask whether a calculation is mathematically valid. It asks whether the conclusion survives every scientifically admissible interpretation of the data.*
->
-> *Thank you!"*
+### Segment 6 — Architecture & Broader Relevance (2:35 – 2:55 | 20 Seconds)
+- **Visual**: Scroll to Act 6 (Beyond Finance: A General Architecture).
+- **Narration**:  
+  "SharpeLab demonstrates finance, but the architecture is general. Wherever scientific findings depend on hidden assumptions—whether in clinical trials, econometrics, psychology, or climate science—Evidence-Routed Inference ensures conclusions are tested against admissible evidence rules."
 
 ---
-*End of Script. Total Runtime: 3:00.*
+
+### Segment 7 — Closing (2:55 – 3:00 | 5 Seconds)
+- **Visual**: Final line highlighted: *Evidence-Routed Inference — Making scientific assumptions explicit.*
+- **Narration**:  
+  "Evidence-Routed Inference: Making scientific assumptions explicit. Thank you."
+
+---
+
+## Arithmetic Verification of Timing
+
+$$\text{Total Duration} = 25\text{s} + 20\text{s} + 70\text{s} + 20\text{s} + 20\text{s} + 20\text{s} + 5\text{s} = 180\text{ Seconds (Exactly 3:00 Minutes)}$$
