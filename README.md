@@ -142,7 +142,13 @@ This demonstration illustrates how Evidence-Routed Inference functions in financ
 
 ---
 
-## 10. Repository Structure
+## 10. AI Tooling & Contribution Disclosure
+
+I used Codex to implement and test the typed statistical pipeline, inference modules, routing rules, CLI, and reproducibility safeguards. I used GPT-5.6 to help formalize the architecture, define the evidence contracts and evaluation design, challenge statistical assumptions, and refine the audit-report logic.
+
+---
+
+## 11. Repository Structure
 
 ```text
 sharpelab-standalone/
